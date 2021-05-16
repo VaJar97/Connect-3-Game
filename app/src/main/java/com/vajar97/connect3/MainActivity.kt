@@ -2,12 +2,14 @@ package com.vajar97.connect3
 
 
 import android.graphics.Color
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.widget.ImageView
+import android.widget.MediaController
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -17,8 +19,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     // yellow = 0, red = 1, empty = -1
-    var color: Int = 0  // red will be first
+    var color: Int = 0  // flag after turn, red will be first
     var count: IntArray = intArrayOf(-1, -1, -1, -1, -1, -1, -1, -1, -1)
+
     private val winningPositions: Array<IntArray> = arrayOf(
             intArrayOf(0, 1, 2),
             intArrayOf(3, 4, 5),
@@ -46,8 +49,14 @@ class MainActivity : AppCompatActivity() {
         resImage.translationY=-1500f                    // hide image above frame
         resImage.setImageResource(setColor())
         resImage.noteTag()                              // write current cell & check status
+        makeSound()
         resImage.animate().translationYBy(1500f).duration=500   // set image
         setTextColor()
+    }
+
+    private fun makeSound() {
+        val mediaPlayer: MediaPlayer = MediaPlayer.create(this, R.raw.fart)
+        mediaPlayer.start()
     }
 
     private fun setColor(): Int {
@@ -109,7 +118,7 @@ class MainActivity : AppCompatActivity() {
         }
         text_turn.text = word
         text_turn.append(" turn")
-        text_turn.animate().alpha(1f).duration = 1000
+        text_turn.animate().alpha(1f).duration = 2000
     }
 }
 
